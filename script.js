@@ -12,17 +12,32 @@ const exercises = [
   { name: "Тяга", reps: 10 },
 ];
 renderExercises();
-addExerciseButton.addEventListener("click", function (){
-const name = exerciseName.value;
-const reps = Number(exerciseReps.value);
-exercises.push({name, reps});
-renderExercises();
+addExerciseButton.addEventListener("click", function () {
+  const name = exerciseName.value.trim();
+  const reps = Number(exerciseReps.value);
+
+  if (name === "" || reps <= 0 || !Number.isInteger(reps)) {
+alert("Введите название и положительное целое количество повторений");
+    return;
+  } // проверка на пустое имя, количество повторений упражнений (не ноль и не минус), если не целое число вернуть false
+
+
+
+    exercises.push({ name, reps });
+    renderExercises();
+  
+    
+
+  exerciseName.value = "";
+  exerciseReps.value = "";
+  exerciseName.focus();
 });
 
 button.addEventListener("click", function () {
   const rounds = Number(input.value);
 
-  if (rounds <= 0 || !Number.isInteger(rounds)) { // проверяет не ввели ли дробное число
+  if (rounds <= 0 || !Number.isInteger(rounds)) {
+    // проверяет не ввели ли дробное число
     result.textContent = "Укажите целое количество кругов";
     return;
   }
@@ -31,7 +46,8 @@ button.addEventListener("click", function () {
   result.textContent = `Общее количество повторений: ${totalReps}`;
 });
 
-function getTotalReps(arr) { //считаест повторения за один круг и возвращает число
+function getTotalReps(arr) {
+  //считаест повторения за один круг и возвращает число
   let totalReps = 0;
   for (let i = 0; i < arr.length; i++) {
     totalReps += arr[i].reps;
@@ -40,13 +56,12 @@ function getTotalReps(arr) { //считаест повторения за оди
   return totalReps;
 }
 
-
-function renderExercises(){
+function renderExercises() {
   exerciseList.textContent = ""; // очистил содержимое лист
 
-  for (let i = 0; i < exercises.length; i++){
-const li = document.createElement('li');
-li.textContent = `${exercises[i].name} - ${exercises[i].reps} повторений`; //внес в память
-exerciseList.append(li); // отрисовать
+  for (let i = 0; i < exercises.length; i++) {
+    const li = document.createElement("li");
+    li.textContent = `${exercises[i].name} - ${exercises[i].reps} повторений`; //внес в память
+    exerciseList.append(li); // отрисовать
   }
 }
