@@ -11,18 +11,12 @@ const exercises = [
   { name: "Приседания", reps: 12 },
   { name: "Тяга", reps: 10 },
 ];
-
+renderExercises();
 addExerciseButton.addEventListener("click", function (){
 const name = exerciseName.value;
 const reps = Number(exerciseReps.value);
 exercises.push({name, reps});
-
-const li = document.createElement("li");
-li.textContent = `${name} - ${reps} повторений`; // пишем в память 
-exerciseList.append(li);// добавляем в список на страницу
-
-console.log(exercises);
-console.log(`name is: ${name}, reps is: ${reps}`)
+renderExercises();
 });
 
 button.addEventListener("click", function () {
@@ -44,4 +38,15 @@ function getTotalReps(arr) { //считаест повторения за оди
   }
 
   return totalReps;
+}
+
+
+function renderExercises(){
+  exerciseList.textContent = ""; // очистил содержимое лист
+
+  for (let i = 0; i < exercises.length; i++){
+const li = document.createElement('li');
+li.textContent = `${exercises[i].name} - ${exercises[i].reps} повторений`; //внес в память
+exerciseList.append(li); // отрисовать
+  }
 }
