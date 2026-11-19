@@ -17,16 +17,14 @@ addExerciseButton.addEventListener("click", function () {
   const reps = Number(exerciseReps.value);
 
   if (name === "" || reps <= 0 || !Number.isInteger(reps)) {
-alert("Введите название и положительное целое количество повторений");
+    alert("Введите название и положительное целое количество повторений");
     return;
   } // проверка на пустое имя, количество повторений упражнений (не ноль и не минус), если не целое число вернуть false
 
+  exercises.push({ name, reps });
+  renderExercises();
 
-
-    exercises.push({ name, reps });
-    renderExercises();
-  
-    
+  result.textContent = ""; // обнулить рассчет колличества повторений при добавлении упражнения
 
   exerciseName.value = "";
   exerciseReps.value = "";
@@ -61,7 +59,22 @@ function renderExercises() {
 
   for (let i = 0; i < exercises.length; i++) {
     const li = document.createElement("li");
-    li.textContent = `${exercises[i].name} - ${exercises[i].reps} повторений`; //внес в память
+    const deleteButton = document.createElement("button");
+
+    li.textContent = `${exercises[i].name} - ${exercises[i].reps} повторений  `; //внес в память
+
+    deleteButton.textContent = "Delete";
+    li.append(deleteButton);
+
     exerciseList.append(li); // отрисовать
+
+    deleteButton.addEventListener('click', function(){
+      exercises.splice(i, 1);
+      renderExercises(); // перерисовка без удаленных
+
+      result.textContent = "";
+    })
+
+    
   }
 }
